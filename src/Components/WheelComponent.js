@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import { Wheel } from "react-custom-roulette";
 import CircularProgress from "@mui/material/CircularProgress";
+import Swal from "sweetalert2";
+import paimon from "../paimon.gif";
+import {
+  FacebookShareButton,
+  FacebookMessengerShareButton,
+  FacebookMessengerIcon,
+  FacebookIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+  TwitterIcon,
+  TwitterShareButton,
+} from "react-share";
 
 function WheelComponent({ data }) {
   const [mustSpin, setMustSpin] = useState(false);
@@ -49,9 +61,19 @@ function WheelComponent({ data }) {
               setWebsiteLink(data[prizeNumber].website);
               setStartLoad(false);
               setMustSpin(false);
+              Swal.fire({
+                title: `Your ulam for today is ` + data[prizeNumber].option,
+                width: 400,
+                backdrop: `
+                  rgba(0,0,123,0.4)
+                  url(${paimon})
+                  top right
+                  no-repeat
+                `,
+              });
               const timer = setTimeout(() => {
                 setDoneLoading(false);
-              }, 5000);
+              }, 2000);
               return () => clearTimeout(timer);
             }}
           />
@@ -67,6 +89,42 @@ function WheelComponent({ data }) {
         ) : (
           <>
             {" "}
+            <div className="social-media-btn my-4">
+              <FacebookShareButton
+                // onClick={hello}
+                url="https://ulamfortoday.netlify.app/"
+                quote="sample"
+                hashtag="#ulamfortoday.netlify.app"
+              >
+                <FacebookIcon className="mx-2" size={50} round={true} />
+              </FacebookShareButton>
+              <FacebookMessengerShareButton
+                // onClick={hello}
+                url="https://ulamfortoday.netlify.app/"
+                quote="sample"
+              >
+                <FacebookMessengerIcon
+                  className="ml-2"
+                  size={50}
+                  round={true}
+                />
+              </FacebookMessengerShareButton>
+              <LinkedinShareButton
+                // onClick={hello}
+                url="https://ulamfortoday.netlify.app/"
+                quote="sample"
+              >
+                <LinkedinIcon className="mx-2" size={50} round={true} />
+              </LinkedinShareButton>
+              <TwitterShareButton
+                // onClick={hello}
+                url="https://ulamfortoday.netlify.app/"
+                quote="sample"
+              >
+                <TwitterIcon size={50} round={true} />
+              </TwitterShareButton>
+              <p>Share your result with your friends</p>
+            </div>
             <div className="yt">
               <iframe
                 src={ytLink}

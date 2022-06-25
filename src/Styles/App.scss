@@ -4,6 +4,11 @@
     padding: 0;
 }
 
+.swal-modal {
+    background-color: rgba(63,255,106,0.69);
+    border: 3px solid white;
+  }
+
 #main-container{
     height: 350vh;
     width: 100%;
@@ -55,6 +60,10 @@
             width: 70%;
             height: 550px;
         }
+    }
+
+    .social-media-btn{
+        background-color: red;
     }
 
     .website{
