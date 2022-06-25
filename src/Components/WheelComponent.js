@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Wheel } from "react-custom-roulette";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function WheelComponent({ data }) {
   const [mustSpin, setMustSpin] = useState(false);
@@ -11,13 +12,14 @@ function WheelComponent({ data }) {
     const newPrizeNumber = Math.floor(Math.random() * data.length);
     setPrizeNumber(newPrizeNumber);
     setMustSpin(true);
+    setYtLink("");
+    setWebsiteLink("");
   };
 
   const filterArray = data.filter((ulam) => {
     return ulam.option.includes("pork") || ulam.option.includes("baboy");
   });
 
-  console.log(filterArray);
   return (
     <>
       <div className="wheel-holder">
@@ -50,23 +52,30 @@ function WheelComponent({ data }) {
           </button>
         </div>
       </div>
+
       <div className="embeded-data">
-        {" "}
-        <div className="yt">
-          <iframe
-            src={ytLink}
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-          ></iframe>
-        </div>
-        <div className="website mt-5">
-          <iframe
-            id="inlineFrameExample"
-            title="Inline Frame Example"
-            src={websiteLink}
-          ></iframe>
-        </div>
+        {ytLink == "" && mustSpin ? (
+          <CircularProgress color="secondary" />
+        ) : (
+          <>
+            {" "}
+            <div className="yt">
+              <iframe
+                src={ytLink}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              ></iframe>
+            </div>
+            <div className="website mt-5">
+              <iframe
+                id="inlineFrameExample"
+                title="Inline Frame Example"
+                src={websiteLink}
+              ></iframe>
+            </div>
+          </>
+        )}
       </div>
     </>
   );
