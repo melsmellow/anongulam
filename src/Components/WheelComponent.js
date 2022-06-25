@@ -4,6 +4,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 function WheelComponent({ data }) {
   const [mustSpin, setMustSpin] = useState(false);
+  const [doneLoading, setDoneLoading] = useState(false);
+  const [startLoad, setStartLoad] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [ytLink, setYtLink] = useState("");
   const [websiteLink, setWebsiteLink] = useState("");
@@ -14,6 +16,8 @@ function WheelComponent({ data }) {
     setMustSpin(true);
     setYtLink("");
     setWebsiteLink("");
+    setDoneLoading(false);
+    setStartLoad(true);
   };
 
   const filterArray = data.filter((ulam) => {
@@ -41,10 +45,14 @@ function WheelComponent({ data }) {
             fontSize="12"
             radiusLineWidth="2"
             onStopSpinning={() => {
-              console.log(prizeNumber);
               setYtLink(data[prizeNumber].yt);
               setWebsiteLink(data[prizeNumber].website);
+              setStartLoad(false);
               setMustSpin(false);
+              const timer = setTimeout(() => {
+                setDoneLoading(false);
+              }, 5000);
+              return () => clearTimeout(timer);
             }}
           />
           <button className="btn-grad" onClick={handleSpinClick}>
@@ -54,7 +62,7 @@ function WheelComponent({ data }) {
       </div>
 
       <div className="embeded-data">
-        {ytLink == "" && mustSpin ? (
+        {ytLink == "" && doneLoading == false && startLoad ? (
           <CircularProgress color="secondary" />
         ) : (
           <>
@@ -63,7 +71,7 @@ function WheelComponent({ data }) {
               <iframe
                 src={ytLink}
                 title="YouTube video player"
-                frameborder="0"
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
               ></iframe>
             </div>
