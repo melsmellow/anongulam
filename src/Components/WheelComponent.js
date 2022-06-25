@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Wheel } from "react-custom-roulette";
 import CircularProgress from "@mui/material/CircularProgress";
+import Sound from "react-sound";
 import Swal from "sweetalert2";
 import paimon from "../paimon.gif";
+import wheelSound from "../wheel.mp3";
+import paimonmp3 from "../paimon.mp3";
 import {
   FacebookShareButton,
   FacebookMessengerShareButton,
@@ -30,11 +33,15 @@ function WheelComponent({ data }) {
     setWebsiteLink("");
     setDoneLoading(false);
     setStartLoad(true);
+    wheelSoundEffect.play();
   };
 
   const filterArray = data.filter((ulam) => {
     return ulam.option.includes("pork") || ulam.option.includes("baboy");
   });
+
+  const wheelSoundEffect = new Audio(wheelSound);
+  const paimonSound = new Audio(paimonmp3);
 
   return (
     <>
@@ -61,6 +68,7 @@ function WheelComponent({ data }) {
               setWebsiteLink(data[prizeNumber].website);
               setStartLoad(false);
               setMustSpin(false);
+
               Swal.fire({
                 title: `Your ulam for today is ` + data[prizeNumber].option,
                 width: 400,
@@ -71,6 +79,9 @@ function WheelComponent({ data }) {
                   no-repeat
                 `,
               });
+              setTimeout(() => {
+                paimonSound.play();
+              }, 1000);
               const timer = setTimeout(() => {
                 setDoneLoading(false);
               }, 2000);
