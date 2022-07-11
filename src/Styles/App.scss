@@ -2,6 +2,11 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
 }
 
 .swal-modal {
@@ -21,6 +26,7 @@
     
     .wheel{
         display: inline-block;  
+        font-family: 'Roboto', sans-serif;
     }
              
     .btn-grad {

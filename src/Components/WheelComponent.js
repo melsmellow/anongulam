@@ -4,8 +4,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Sound from "react-sound";
 import Swal from "sweetalert2";
 import paimon from "../paimon.gif";
+import paimon2 from "../paimonAngry.gif";
 import wheelSound from "../wheel.mp3";
 import paimonmp3 from "../paimon.mp3";
+import emergencyFood from "../emergencyfood.mp3";
 import {
   FacebookShareButton,
   FacebookMessengerShareButton,
@@ -36,12 +38,13 @@ function WheelComponent({ data }) {
     wheelSoundEffect.play();
   };
 
-  const filterArray = data.filter((ulam) => {
-    return ulam.option.includes("pork") || ulam.option.includes("baboy");
-  });
+  // const filterArray = data.filter((ulam) => {
+  //   return ulam.option.includes("pork") || ulam.option.includes("baboy");
+  // });
 
   const wheelSoundEffect = new Audio(wheelSound);
   const paimonSound = new Audio(paimonmp3);
+  const emergencyFoodSound = new Audio(emergencyFood);
 
   return (
     <>
@@ -61,7 +64,8 @@ function WheelComponent({ data }) {
             mustStartSpinning={mustSpin}
             prizeNumber={prizeNumber}
             data={data}
-            fontSize="12"
+            fontSize="13"
+            style={{ fontWeight: "1500" }}
             radiusLineWidth="2"
             onStopSpinning={() => {
               setYtLink(data[prizeNumber].yt);
@@ -69,19 +73,36 @@ function WheelComponent({ data }) {
               setStartLoad(false);
               setMustSpin(false);
 
-              Swal.fire({
-                title: `Your ulam for today is ` + data[prizeNumber].option,
-                width: 400,
-                backdrop: `
-                  rgba(0,0,123,0.4)
-                  url(${paimon})
-                  top right
-                  no-repeat
-                `,
-              });
-              setTimeout(() => {
-                paimonSound.play();
-              }, 1000);
+              if (data[prizeNumber].option != "Paimon") {
+                Swal.fire({
+                  title: `Your ulam for today is ` + data[prizeNumber].option,
+                  width: 400,
+                  backdrop: `
+                    rgba(0,0,123,0.4)
+                    url(${paimon})
+                    top right
+                    no-repeat
+                  `,
+                });
+                setTimeout(() => {
+                  paimonSound.play();
+                }, 1000);
+              } else {
+                Swal.fire({
+                  title: `Your ulam for today is Paimon the Emergency Food!! Dig in!`,
+                  width: 400,
+                  backdrop: `
+                    rgba(0,0,123,0.4)
+                    url(${paimon2})
+                    top right
+                    no-repeat
+                  `,
+                });
+                setTimeout(() => {
+                  emergencyFoodSound.play();
+                }, 1000);
+              }
+
               const timer = setTimeout(() => {
                 setDoneLoading(false);
               }, 2000);
